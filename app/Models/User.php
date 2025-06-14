@@ -39,6 +39,7 @@ class User extends Authenticatable implements JWTSubject
         'name',
         'email',
         'password',
+        'role', // 'admin' or 'user'
     ];
 
     /**
@@ -70,5 +71,15 @@ class User extends Authenticatable implements JWTSubject
         static::creating(function($model){
             $model->id = Uuid::uuid4();
         });
+    }
+
+    public function hotels()
+    {
+        return $this->hasMany(Hotel::class, 'owner_id');
+    }
+
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
     }
 }

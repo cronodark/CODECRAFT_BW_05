@@ -13,11 +13,26 @@ class Room extends Model
     protected $keyType = 'string';
     public $incrementing = false;
 
-    
+    protected $fillable = [
+        'hotel_id',
+        'name',
+        'price',
+        'description',
+        'capacity',
+    ];
 
     public static function booted(){
         static::creating(function($model){
             $model->id = Uuid::uuid4();
         });
+    }
+
+    public function hotel()
+    {
+        return $this->belongsTo(Hotel::class);
+    }
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
     }
 }
